@@ -1,0 +1,32 @@
+package MapsLambdaStreamAPILab;
+
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class CountRealNumbers_01 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Double> numbers = Arrays.stream(scanner.nextLine().split("\\s+"))
+                .map(Double::parseDouble)
+                .collect(Collectors.toList());
+
+        Map<Double, Integer> numberCounts = new TreeMap<>();
+        for (Double number : numbers) {
+            Integer currentCount = numberCounts.get(number);
+
+            if (currentCount != null) {
+                numberCounts.put(number, currentCount + 1);
+            }else {
+                numberCounts.put(number, 1);
+            }
+        }
+        for (Map.Entry<Double, Integer> entry : numberCounts.entrySet()) {
+            DecimalFormat df = new DecimalFormat("#.#######");
+            System.out.printf("%s -> %d%n", df.format(entry.getKey()), entry.getValue());
+        }
+
+
+    }
+}
