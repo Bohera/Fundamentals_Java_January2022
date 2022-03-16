@@ -14,5 +14,6 @@ public class test_07 {
             text.append("a");
         }
         System.out.println(new Date());
+
     }
 }
