@@ -6,7 +6,7 @@ public class StringExplosion_07 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String line =  scanner.nextLine();
+        String line = scanner.nextLine();
 
         StringBuilder sb = new StringBuilder();
 
@@ -16,14 +16,15 @@ public class StringExplosion_07 {
             } else {
                 sb.append(line.charAt(i));
                 int strength = Integer.parseInt(line.charAt(i + 1) + "");
-                for (int j = i + 1; j <= i + strength; j++) {
-                    if (line.charAt(j) == '>') {
-                        strength += Integer.parseInt(line.charAt(j + 1) + "");
-                        sb.append(line.charAt(j));
+                if (i + 1 <= line.length() || i + strength <= line.length()) {
+                    for (int j = i + 1; j <= i + strength; j++) {
+                        if (line.charAt(j) == '>') {
+                            strength += Integer.parseInt(line.charAt(j + 1) + "") + 1;
+                            sb.append(line.charAt(j));
+                        }
                     }
+                    i += strength;
                 }
-                i += strength;
-                strength = 0;
             }
         }
 
