@@ -8,7 +8,7 @@ public class SoftUniBarIncome_03 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Pattern pattern = Pattern.compile("%(?<name>[A-Z][a-z]+)%[^|$.]*?<(?<product>\\w+)>[^|$.]*?\\|(?<count>\\d+)\\|[^|$.]*?(?<price>\\d+\\.?\\d+)\\$");
+        Pattern pattern = Pattern.compile("%(?<name>[A-Z][a-z]+)%[^%|$.]*?<(?<product>\\w+)>[^%|$.]*?\\|(?<count>\\d+)\\|[^%|$.]*?(?<price>\\d+\\.?\\d+)\\$");
         double income = 0;
         String line = scanner.nextLine();
         while (!line.equals("end of shift")) {
