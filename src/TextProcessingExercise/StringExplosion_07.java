@@ -9,22 +9,23 @@ public class StringExplosion_07 {
         String line = scanner.nextLine();
 
         StringBuilder sb = new StringBuilder();
-
+        int strength = 0;
         for (int i = 0; i < line.length(); i++) {
-            if (!(line.charAt(i) == '>')) {
+            if (line.charAt(i) != '>') {
                 sb.append(line.charAt(i));
-            } else {
-                sb.append(line.charAt(i));
-                int strength = Integer.parseInt(line.charAt(i + 1) + "");
-                if (i + 1 <= line.length() || i + strength <= line.length()) {
-                    for (int j = i + 1; j <= i + strength; j++) {
-                        if (line.charAt(j) == '>') {
-                            strength += Integer.parseInt(line.charAt(j + 1) + "") + 1;
-                            sb.append(line.charAt(j));
-                        }
-                    }
-                    i += strength;
+                if (strength > 0) {
+                    strength--;
                 }
+            } else if (line.charAt(i) == '>'){
+                sb.append(line.charAt(i));
+                if (strength > 0) {
+                    strength += Integer.parseInt(String.valueOf(line.charAt(i + 1)));
+                    i--;
+                } else {
+                    strength = Integer.parseInt(String.valueOf(line.charAt(i + 1)));
+                }
+
+
             }
         }
 
