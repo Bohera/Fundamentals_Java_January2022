@@ -1,8 +1,6 @@
 package FinalExamPreparation23March2022;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class HeroesOfCodeAndLogicVII_03 {
     static class Hero {
@@ -39,19 +37,20 @@ public class HeroesOfCodeAndLogicVII_03 {
         public void setManaPoints(int manaPoints) {
             this.manaPoints = manaPoints;
         }
+
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<Hero> heroes = new ArrayList<>();
+        Map<String, Hero> heroes = new LinkedHashMap<>();
 
         int numHeroes = Integer.parseInt(scanner.nextLine());
         for (int i = 0; i < numHeroes; i++) {
             String line = scanner.nextLine();
             String[] heroParams = line.split(" ");
             Hero hero = new Hero(heroParams[0], Integer.parseInt(heroParams[1]), Integer.parseInt(heroParams[2]));
-            heroes.add(hero);
+            heroes.put(hero.getName(), hero);
         }
 
         String command = scanner.nextLine();
@@ -61,49 +60,72 @@ public class HeroesOfCodeAndLogicVII_03 {
 
             switch (commandName) {
                 case "CastSpell":
-                    handleCastSpell(commandParts[1], Integer.parseInt(commandParts[2]), commandParts[3]);
+                    handleCastSpell(heroes, commandParts[1], Integer.parseInt(commandParts[2]), commandParts[3]);
                     break;
                 case "TakeDamage":
-                    handleTakeDamage(commandParts[1], Integer.parseInt(commandParts[2]), commandParts[3]);
-
+                    handleTakeDamage(heroes, commandParts[1], Integer.parseInt(commandParts[2]), commandParts[3]);
                     break;
                 case "Recharge":
-                    handleRecharge(commandParts[1], Integer.parseInt(commandParts[2]));
-
+                    handleRecharge(heroes, commandParts[1], Integer.parseInt(commandParts[2]));
                     break;
                 case "Heal":
-                    handleHeal(commandParts[1], Integer.parseInt(commandParts[2]));
-
+                    handleHeal(heroes, commandParts[1], Integer.parseInt(commandParts[2]));
                     break;
                 default:
-                    throw  new IllegalStateException("Unknown command " + commandName + " in " + command);
+                    throw new IllegalStateException("Unknown command " + commandName + " in " + command);
             }
-
 
             command = scanner.nextLine();
         }
-        for (Hero hero: heroes) {
+        for (Hero hero : heroes.values()) {
             System.out.println(
                     hero.getName() + System.lineSeparator()
-                    + " HP: " + hero.getHitPoints()  + System.lineSeparator()
-                    + " MP: " + hero.getManaPoints());
+                            + " HP: " + hero.getHitPoints() + System.lineSeparator()
+                            + " MP: " + hero.getManaPoints());
 
         }
     }
 
-    private static void handleHeal(String heroName, int amount) {
-        return;
+    private static void handleCastSpell(Map<String, Hero> heroes, String heroName, int mannaPoints, String spellName) {
+        Hero hero = heroes.get(heroName);
+
+        if (hero.getManaPoints() >= mannaPoints) {
+            hero.setManaPoints(hero.getManaPoints() - mannaPoints);
+            System.out.println(hero.getName() + " has successfully cast " + spellName + " and now has " + hero.getManaPoints() + " MP!");
+        } else {
+            System.out.println(hero.getName() + " does not have enough MP to cast " + spellName + "!");
+        }
+
     }
 
-    private static void handleRecharge(String heroName, int amount) {
-        return;
+    private static void handleTakeDamage(Map<String, Hero> heroes, String heroName, int damage, String attacker) {
+        Hero hero = heroes.get(heroName);
+
+        hero.setHitPoints(hero.getHitPoints() - damage);
+        if (hero.getHitPoints() > 0) {
+            System.out.println(hero.getName() + " was hit for " + damage + " HP by " + attacker + " and now has " + hero.getHitPoints() + " HP left!");
+        } else {
+            System.out.println(hero.getName() + " has been killed by " + attacker + "!");
+            heroes.remove(heroName);
+        }
+
     }
 
-    private static void handleTakeDamage(String heroName, int damage, String attacker) {
-        return;
+    private static void handleRecharge(Map<String, Hero> heroes, String heroName, int amount) {
+        Hero hero = heroes.get(heroName);
+        int oldManaPoints = hero.getManaPoints();
+        int newManaPoints = Math.min(hero.getManaPoints() + amount, 200);
+        int amountRecovered = newManaPoints - oldManaPoints;
+        hero.setManaPoints(newManaPoints);
+        System.out.println(hero.getName() + " recharged for " + amountRecovered + " MP!");
     }
 
-    private static void handleCastSpell(String heroName, int mannaPoints, String spellName) {
-        return;
+    private static void handleHeal(Map<String, Hero> heroes, String heroName, int amount) {
+        Hero hero = heroes.get(heroName);
+        int oldHitPoints = hero.getHitPoints();
+        int newHitPoints = Math.min(hero.getHitPoints() + amount, 100);
+        int amountRecovered = newHitPoints - oldHitPoints;
+        hero.setHitPoints(newHitPoints);
+        System.out.println(hero.getName() + " healed for " + amountRecovered + " HP!");
     }
 }
