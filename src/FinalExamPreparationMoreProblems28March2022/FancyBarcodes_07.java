@@ -28,8 +28,8 @@ public class FancyBarcodes_07 {
                     productGroup.append(product.charAt(j));
                 }
             }
-            boolean isEmpty = productGroup.isEmpty();
-            if (isEmpty) {
+            //if (productGroup.isEmpty()) {
+            if (productGroup.length() == 0) {
                 System.out.println("Product group: 00");
             } else {
                 System.out.printf("Product group: %s%n", productGroup);
