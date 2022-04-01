@@ -12,11 +12,9 @@ public class EmojiDetector_08 {
 
         String input = scanner.nextLine();
 
-        long coolThreshold = 0;
+        long coolThreshold = 1;
         for (int i = 0; i < input.length(); i++) {
-            if (Character.isDigit(input.charAt(i)) && coolThreshold == 0) {
-                coolThreshold = input.charAt(i) - '0';
-            } else if (Character.isDigit(input.charAt(i))) {
+            if (Character.isDigit(input.charAt(i))) {
                 coolThreshold *= input.charAt(i) - '0';
             }
         }
@@ -32,7 +30,7 @@ public class EmojiDetector_08 {
             for (int i = 0; i < emojiMatcher.group("emoji").length(); i++) {
                 currentEmojiCoolness += emojiMatcher.group("emoji").charAt(i);
             }
-            if (currentEmojiCoolness > coolThreshold) {
+            if (currentEmojiCoolness >= coolThreshold) {
                 coolEmojiList.put(emojiMatcher.group(), currentEmojiCoolness);
             }
         }
