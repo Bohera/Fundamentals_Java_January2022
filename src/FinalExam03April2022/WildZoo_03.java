@@ -21,10 +21,8 @@ public class WildZoo_03 {
                     Animal animal = new Animal(animalName, foodNeeded, areaName);
                     if (animalMap.containsKey(animalName)) {
                         animalMap.get(animalName).setFoodNeeded(animalMap.get(animalName).getFoodNeeded() + foodNeeded);
-                        if (!areaMap.get(areaName).getAnimalList().contains(animalMap.get(animalName))) {
-                            if (animalMap.get(animalName).getFoodNeeded() > 0) {
+                        if (!areaMap.get(areaName).getAnimalList().contains(animalMap.get(animalName)) && animalMap.get(animalName).getFoodNeeded() > 0) {
                                 areaMap.get(areaName).getAnimalList().add(animal);
-                            }
                         }
                     } else {
                         animalMap.put(animalName, animal);
